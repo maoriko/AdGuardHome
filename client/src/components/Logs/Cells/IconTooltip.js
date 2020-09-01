@@ -62,10 +62,7 @@ IconTooltip.propTypes = {
     placement: PropTypes.string,
     canShowTooltip: PropTypes.bool,
     xlinkHref: PropTypes.string,
-    content: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.array,
-    ]),
+    content: PropTypes.node,
     renderContent: PropTypes.arrayOf(PropTypes.element),
     onVisibilityChange: PropTypes.func,
     modifiers: PropTypes.object,

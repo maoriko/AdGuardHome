@@ -4,13 +4,12 @@ import { nanoid } from 'nanoid';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import propTypes from 'prop-types';
-import { checkFiltered } from '../../../helpers/helpers';
-import { BLOCK_ACTIONS } from '../../../helpers/constants';
-import { toggleBlocking } from '../../../actions';
+import { checkFiltered, getIpMatchListStatus } from '../../../helpers/helpers';
+import { BLOCK_ACTIONS, IP_MATCH_LIST_STATUS } from '../../../helpers/constants';
+import { toggleBlocking, toggleBlockingForClient } from '../../../actions';
 import IconTooltip from './IconTooltip';
 import { renderFormattedClientCell } from '../../../helpers/renderFormattedClientCell';
-
-const BUTTON_OPTIONS_TO_ACTION_MAP = {};
+import { toggleClientBlock } from '../../../actions/access';
 
 const ClientCell = ({
     client,
@@ -25,6 +24,11 @@ const ClientCell = ({
     const processingRules = useSelector((state) => state.filtering.processingRules);
     const isDetailed = useSelector((state) => state.queryLogs.isDetailed);
     const [isOptionsOpened, setOptionsOpened] = useState(false);
+
+    const disallowed_clients = useSelector(
+        (state) => state.access.disallowed_clients,
+        shallowEqual,
+    );
 
     const autoClient = autoClients.find((autoClient) => autoClient.name === client);
     const source = autoClient?.source;
@@ -57,6 +61,32 @@ const ClientCell = ({
     const renderBlockingButton = (isFiltered, domain) => {
         const buttonType = isFiltered ? BLOCK_ACTIONS.UNBLOCK : BLOCK_ACTIONS.BLOCK;
 
+        // todo separate logic
+        const ipMatchListStatus = getIpMatchListStatus(client, disallowed_clients);
+
+        if (ipMatchListStatus === IP_MATCH_LIST_STATUS.CIDR) {
+            return null;
+        }
+
+        const isNotFound = ipMatchListStatus === IP_MATCH_LIST_STATUS.NOT_FOUND;
+        const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
+
+        const confirmMessage = type === BLOCK_ACTIONS.BLOCK ? 'client_confirm_block' : 'client_confirm_unblock';
+        const key = type === BLOCK_ACTIONS.BLOCK ? 'block_this_client' : 'unblock_this_client';
+
+        const BUTTON_OPTIONS_TO_ACTION_MAP = {
+            [key]: () => {
+                if (window.confirm(`${t('adg_will_drop_dns_queries')} ${t(confirmMessage, { ip: client })}`)) {
+                    dispatch(toggleClientBlock(type, client));
+                }
+            },
+            // todo: add unblock_for_this_client
+            block_for_this_client: () => {
+                dispatch(toggleBlockingForClient(buttonType, domain, client));
+            },
+        };
+
+
         const onClick = () => dispatch(toggleBlocking(buttonType, domain));
 
         const getOptions = (optionToActionMap) => {
@@ -69,7 +99,7 @@ const ClientCell = ({
                     key={name}
                     className="button--action--arrow__option px-4 py-2"
                     onClick={onClick}
-            >{name}
+            >{t(name)}
             </div>)}</>;
         };
 
