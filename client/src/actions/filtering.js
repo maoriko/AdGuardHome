@@ -1,5 +1,6 @@
 import { createAction } from 'redux-actions';
 import { showLoading, hideLoading } from 'react-redux-loading-bar';
+import i18next from 'i18next';
 
 import { normalizeFilteringStatus, normalizeRulesTextarea } from '../helpers/helpers';
 import apiClient from '../api/Api';
@@ -129,7 +130,7 @@ export const refreshFilters = (config) => async (dispatch) => {
         dispatch(refreshFiltersSuccess());
 
         if (updated > 0) {
-            dispatch(addSuccessToast({ key: 'list_updated', options: { count: updated } }));
+            dispatch(addSuccessToast(i18next.t('list_updated', { count: updated })));
         } else {
             dispatch(addSuccessToast('all_lists_up_to_date_toast'));
         }

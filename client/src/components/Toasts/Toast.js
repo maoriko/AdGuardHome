@@ -27,12 +27,10 @@ const Toast = ({
         setRemoveToastTimeout();
     }, []);
 
-    const { key, options } = message;
-
     return <div className={`toast toast--${type}`}
                 onMouseOver={clearRemoveToastTimeout}
                 onMouseOut={setRemoveToastTimeout}>
-        <p className="toast__content">{t(key, options)}</p>
+        <p className="toast__content">{t(message)}</p>
         <button className="toast__dismiss" onClick={removeCurrentToast}>
             <svg stroke="#fff" fill="none" width="20" height="20" strokeWidth="2"
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -45,10 +43,7 @@ const Toast = ({
 
 Toast.propTypes = {
     id: PropTypes.string.isRequired,
-    message: PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        options: PropTypes.objectOf(PropTypes.string),
-    }),
+    message: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
 };
 
