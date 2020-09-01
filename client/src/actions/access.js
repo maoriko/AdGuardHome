@@ -1,4 +1,5 @@
 import { createAction } from 'redux-actions';
+import i18next from 'i18next';
 
 import apiClient from '../api/Api';
 import { addErrorToast, addSuccessToast } from './toasts';
@@ -72,9 +73,9 @@ export const toggleClientBlock = (type, ip) => async (dispatch) => {
         dispatch(toggleClientBlockSuccess(values));
 
         if (type === BLOCK_ACTIONS.UNBLOCK) {
-            dispatch(addSuccessToast({ key: 'client_unblocked', options: { ip } }));
+            dispatch(addSuccessToast(i18next.t('client_unblocked', { ip })));
         } else if (type === BLOCK_ACTIONS.BLOCK) {
-            dispatch(addSuccessToast({ key: 'client_blocked', options: { ip } }));
+            dispatch(addSuccessToast(i18next.t('client_blocked', { ip })));
         }
     } catch (error) {
         dispatch(addErrorToast({ error }));

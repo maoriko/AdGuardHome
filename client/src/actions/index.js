@@ -518,7 +518,7 @@ export const addStaticLease = (config) => async (dispatch) => {
         const name = config.hostname || config.ip;
         await apiClient.addStaticLease(config);
         dispatch(addStaticLeaseSuccess(config));
-        dispatch(addSuccessToast({ key: 'dhcp_lease_added', options: { key: name } }));
+        dispatch(addSuccessToast(i18next.t('dhcp_lease_added', { key: name })));
         dispatch(toggleLeaseModal());
     } catch (error) {
         dispatch(addErrorToast({ error }));
@@ -536,7 +536,7 @@ export const removeStaticLease = (config) => async (dispatch) => {
         const name = config.hostname || config.ip;
         await apiClient.removeStaticLease(config);
         dispatch(removeStaticLeaseSuccess(config));
-        dispatch(addSuccessToast({ key: 'dhcp_lease_deleted', options: { key: name } }));
+        dispatch(addSuccessToast(i18next.t('dhcp_lease_deleted', { key: name })));
     } catch (error) {
         dispatch(addErrorToast({ error }));
         dispatch(removeStaticLeaseFailure());
@@ -562,15 +562,15 @@ export const toggleBlocking = (type, domain) => async (dispatch, getState) => {
 
     if (matchPreparedBlockingRule) {
         dispatch(setRules(userRules.replace(`${blockingRule}`, '')));
-        dispatch(addSuccessToast({ key: 'rule_removed_from_custom_filtering_toast', options: { rule: blockingRule } }));
+        dispatch(addSuccessToast(i18next.t('rule_removed_from_custom_filtering_toast', { rule: blockingRule })));
     } else if (!matchPreparedUnblockingRule) {
         dispatch(setRules(`${userRules}${lineEnding}${unblockingRule}\n`));
-        dispatch(addSuccessToast({ key: 'rule_added_to_custom_filtering_toast', options: { rule: unblockingRule } }));
+        dispatch(addSuccessToast(i18next.t('rule_added_to_custom_filtering_toast', { rule: unblockingRule })));
     } else if (matchPreparedUnblockingRule) {
-        dispatch(addSuccessToast({ key: 'rule_added_to_custom_filtering_toast', options: { rule: unblockingRule } }));
+        dispatch(addSuccessToast(i18next.t('rule_added_to_custom_filtering_toast', { rule: unblockingRule })));
         return;
     } else if (!matchPreparedBlockingRule) {
-        dispatch(addSuccessToast({ key: 'rule_removed_from_custom_filtering_toast', options: { rule: blockingRule } }));
+        dispatch(addSuccessToast(i18next.t('rule_removed_from_custom_filtering_toast', { rule: blockingRule })));
         return;
     }
 
