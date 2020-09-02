@@ -4,23 +4,13 @@ import { nanoid } from 'nanoid';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import propTypes from 'prop-types';
-import { checkFiltered, getIpMatchListStatus, getBlockingClientName } from '../../../helpers/helpers';
-import { BLOCK_ACTIONS, IP_MATCH_LIST_STATUS } from '../../../helpers/constants';
+import { checkFiltered, getBlockingClientName } from '../../../helpers/helpers';
+import { BLOCK_ACTIONS } from '../../../helpers/constants';
 import { toggleBlocking, toggleBlockingForClient } from '../../../actions';
 import IconTooltip from './IconTooltip';
 import { renderFormattedClientCell } from '../../../helpers/renderFormattedClientCell';
 import { toggleClientBlock } from '../../../actions/access';
-
-const getBlockClientInfo = (client, disallowed_clients) => {
-    const ipMatchListStatus = getIpMatchListStatus(client, disallowed_clients);
-
-    const isNotFound = ipMatchListStatus === IP_MATCH_LIST_STATUS.NOT_FOUND;
-    const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
-
-    const confirmMessage = isNotFound ? 'client_confirm_block' : 'client_confirm_unblock';
-    const buttonKey = isNotFound ? 'disallow_this_client' : 'allow_this_client';
-    return { confirmMessage, buttonKey, type };
-};
+import { getBlockClientInfo } from './helpers';
 
 const ClientCell = ({
     client,
