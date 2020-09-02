@@ -116,7 +116,11 @@ const ClientCell = ({
             'button--action--active': isOptionsOpened,
         });
 
-        return <div className="button--action__container">
+        const containerClass = classNames('button--action__container', {
+            'button--action__container--detailed': isDetailed,
+        });
+
+        return <div className={containerClass}>
             <button type="button"
                     className={buttonClass}
                     onClick={onClick}
