@@ -322,7 +322,7 @@
 }
 
 .logs__table .logs__row:hover .button--action,
-.button--action--active {
+.logs__table .button--action--active {
     visibility: visible;
 }
 
