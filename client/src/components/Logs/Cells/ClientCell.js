@@ -11,6 +11,17 @@ import IconTooltip from './IconTooltip';
 import { renderFormattedClientCell } from '../../../helpers/renderFormattedClientCell';
 import { toggleClientBlock } from '../../../actions/access';
 
+const getBlockClientInfo = (client, disallowed_clients) => {
+    const ipMatchListStatus = getIpMatchListStatus(client, disallowed_clients);
+
+    const isNotFound = ipMatchListStatus === IP_MATCH_LIST_STATUS.NOT_FOUND;
+    const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
+
+    const confirmMessage = isNotFound ? 'client_confirm_block' : 'client_confirm_unblock';
+    const buttonKey = isNotFound ? 'block_this_client' : 'unblock_this_client';
+    return { confirmMessage, buttonKey, type };
+};
+
 const ClientCell = ({
     client,
     domain,
@@ -61,31 +72,24 @@ const ClientCell = ({
     const renderBlockingButton = (isFiltered, domain) => {
         const buttonType = isFiltered ? BLOCK_ACTIONS.UNBLOCK : BLOCK_ACTIONS.BLOCK;
 
-        // todo separate logic
-        const ipMatchListStatus = getIpMatchListStatus(client, disallowed_clients);
+        const {
+            confirmMessage,
+            buttonKey: blockingClientKey,
+            type,
+        } = getBlockClientInfo(client, disallowed_clients);
 
-        if (ipMatchListStatus === IP_MATCH_LIST_STATUS.CIDR) {
-            return null;
-        }
-
-        const isNotFound = ipMatchListStatus === IP_MATCH_LIST_STATUS.NOT_FOUND;
-        const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
-
-        const confirmMessage = type === BLOCK_ACTIONS.BLOCK ? 'client_confirm_block' : 'client_confirm_unblock';
-        const key = type === BLOCK_ACTIONS.BLOCK ? 'block_this_client' : 'unblock_this_client';
+        const blockingForClientKey = isFiltered ? 'unblock_for_this_client' : 'block_for_this_client';
 
         const BUTTON_OPTIONS_TO_ACTION_MAP = {
-            [key]: () => {
-                if (window.confirm(`${t('adg_will_drop_dns_queries')} ${t(confirmMessage, { ip: client })}`)) {
+            [blockingClientKey]: () => {
+                if (window.confirm(`${type === BLOCK_ACTIONS.BLOCK ? t('adg_will_drop_dns_queries') : ''} ${t(confirmMessage, { ip: client })}`)) {
                     dispatch(toggleClientBlock(type, client));
                 }
             },
-            // todo: add unblock_for_this_client
-            block_for_this_client: () => {
+            [blockingForClientKey]: () => {
                 dispatch(toggleBlockingForClient(buttonType, domain, client));
             },
         };
-
 
         const onClick = () => dispatch(toggleBlocking(buttonType, domain));
 
@@ -130,15 +134,12 @@ const ClientCell = ({
             </button>
             {content && <button className={buttonArrowClass} disabled={processingRules}>
                 <IconTooltip
-                        className='icon--24'
+                        className='icon--18'
                         tooltipClass='button--action--arrow__option-container'
                         xlinkHref='chevron-down'
                         triggerClass='button--action--icon'
                         content={content} placement="bottom-end" trigger="click"
                         onVisibilityChange={setOptionsOpened}
-                        modifiers={{
-                            offset: { offset: '5px, 8px' },
-                        }}
                 />
             </button>}
         </div>;

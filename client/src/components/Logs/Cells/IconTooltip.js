@@ -20,7 +20,6 @@ const IconTooltip = ({
     content,
     trigger,
     onVisibilityChange,
-    modifiers,
     renderContent = content ? React.Children.map(
         processContent(content),
         (item, idx) => <div key={idx} className={contentItemClass}>
@@ -43,7 +42,6 @@ const IconTooltip = ({
         triggerClass={triggerClass}
         trigger={trigger}
         onVisibilityChange={onVisibilityChange}
-        modifiers={modifiers}
     >
         {xlinkHref && <svg className={className}>
             <use xlinkHref={`#${xlinkHref}`} />
@@ -65,7 +63,6 @@ IconTooltip.propTypes = {
     content: PropTypes.node,
     renderContent: PropTypes.arrayOf(PropTypes.element),
     onVisibilityChange: PropTypes.func,
-    modifiers: PropTypes.object,
 };
 
 export default IconTooltip;
