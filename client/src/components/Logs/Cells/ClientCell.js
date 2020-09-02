@@ -18,7 +18,7 @@ const getBlockClientInfo = (client, disallowed_clients) => {
     const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
 
     const confirmMessage = isNotFound ? 'client_confirm_block' : 'client_confirm_unblock';
-    const buttonKey = isNotFound ? 'block_this_client' : 'unblock_this_client';
+    const buttonKey = isNotFound ? 'disallow_this_client' : 'allow_this_client';
     return { confirmMessage, buttonKey, type };
 };
 
@@ -79,17 +79,17 @@ const ClientCell = ({
             type,
         } = getBlockClientInfo(client, disallowed_clients);
 
-        const blockingForClientKey = isFiltered ? 'unblock_for_this_client' : 'block_for_this_client';
+        const blockingForClientKey = isFiltered ? 'unblock_for_this_client_only' : 'block_for_this_client_only';
         const clientNameBlockingFor = getBlockingClientName(clients, client);
 
         const BUTTON_OPTIONS_TO_ACTION_MAP = {
+            [blockingForClientKey]: () => {
+                dispatch(toggleBlockingForClient(buttonType, domain, clientNameBlockingFor));
+            },
             [blockingClientKey]: () => {
                 if (window.confirm(`${type === BLOCK_ACTIONS.BLOCK ? t('adg_will_drop_dns_queries') : ''} ${t(confirmMessage, { ip: client })}`)) {
                     dispatch(toggleClientBlock(type, client));
                 }
-            },
-            [blockingForClientKey]: () => {
-                dispatch(toggleBlockingForClient(buttonType, domain, clientNameBlockingFor));
             },
         };
 
@@ -136,7 +136,7 @@ const ClientCell = ({
             </button>
             {content && <button className={buttonArrowClass} disabled={processingRules}>
                 <IconTooltip
-                        className='icon--24'
+                        className='h-100 w-100'
                         tooltipClass='button--action--arrow__option-container'
                         xlinkHref='chevron-down'
                         triggerClass='button--action--icon'
