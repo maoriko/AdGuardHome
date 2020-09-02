@@ -51,9 +51,8 @@ const renderBlockingButton = (ip) => {
     const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
     const text = type;
 
-    const className = classNames('btn btn-sm', {
-        'btn-outline-danger': isNotFound,
-        'btn-outline-secondary': !isNotFound,
+    const buttonClass = classNames('button--action button--action--main', {
+        'button--action--unblock': !isNotFound,
     });
 
     const toggleClientStatus = (type, ip) => {
@@ -69,7 +68,7 @@ const renderBlockingButton = (ip) => {
     return <div className="table__action pl-4">
                 <button
                         type="button"
-                        className={className}
+                        className={buttonClass}
                         onClick={onClick}
                         disabled={processingSet}
                 >

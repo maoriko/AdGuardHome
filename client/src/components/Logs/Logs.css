@@ -228,7 +228,6 @@
 
 .button--action {
     outline: 0 !important;
-    visibility: hidden;
     background: var(--btn-block);
     border-radius: var(--option-border-radius);
     font-size: 0.8rem;
@@ -237,6 +236,10 @@
     text-align: center;
     line-height: 28px;
     border: 0;
+}
+
+.logs__table .button--action {
+    visibility: hidden;
 }
 
 .button--action--unblock {
