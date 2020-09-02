@@ -42,6 +42,7 @@ const IconTooltip = ({
         triggerClass={triggerClass}
         trigger={trigger}
         onVisibilityChange={onVisibilityChange}
+        delayShow={0}
     >
         {xlinkHref && <svg className={className}>
             <use xlinkHref={`#${xlinkHref}`} />

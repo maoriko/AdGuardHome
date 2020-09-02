@@ -277,12 +277,10 @@
 
 .button--action:active {
     background: var(--btn-block-active);
-    cursor: default;
 }
 
 .button--action--unblock:active {
     background: var(--btn-unblock-active);
-    cursor: default;
 }
 
 .button--action:disabled {

@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import propTypes from 'prop-types';
-import { checkFiltered, getIpMatchListStatus } from '../../../helpers/helpers';
+import { checkFiltered, getIpMatchListStatus, getBlockingClientName } from '../../../helpers/helpers';
 import { BLOCK_ACTIONS, IP_MATCH_LIST_STATUS } from '../../../helpers/constants';
 import { toggleBlocking, toggleBlockingForClient } from '../../../actions';
 import IconTooltip from './IconTooltip';
@@ -71,6 +71,7 @@ const ClientCell = ({
 
     const renderBlockingButton = (isFiltered, domain) => {
         const buttonType = isFiltered ? BLOCK_ACTIONS.UNBLOCK : BLOCK_ACTIONS.BLOCK;
+        const clients = useSelector((state) => state.dashboard.clients);
 
         const {
             confirmMessage,
@@ -79,6 +80,7 @@ const ClientCell = ({
         } = getBlockClientInfo(client, disallowed_clients);
 
         const blockingForClientKey = isFiltered ? 'unblock_for_this_client' : 'block_for_this_client';
+        const clientNameBlockingFor = getBlockingClientName(clients, client);
 
         const BUTTON_OPTIONS_TO_ACTION_MAP = {
             [blockingClientKey]: () => {
@@ -87,7 +89,7 @@ const ClientCell = ({
                 }
             },
             [blockingForClientKey]: () => {
-                dispatch(toggleBlockingForClient(buttonType, domain, client));
+                dispatch(toggleBlockingForClient(buttonType, domain, clientNameBlockingFor));
             },
         };
 
@@ -134,7 +136,7 @@ const ClientCell = ({
             </button>
             {content && <button className={buttonArrowClass} disabled={processingRules}>
                 <IconTooltip
-                        className='icon--18'
+                        className='icon--24'
                         tooltipClass='button--action--arrow__option-container'
                         xlinkHref='chevron-down'
                         triggerClass='button--action--icon'
