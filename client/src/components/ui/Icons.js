@@ -345,11 +345,12 @@ const Icons = () => (
             </svg>
         </symbol>
 
-        <symbol id="chevron-down" viewBox="0 0 24 24" stroke="currentColor"
-                strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"
-                width="24" height="24" fill="none"
-        >
-            <polyline points="6 9 12 15 18 9"></polyline>
+        <symbol id="chevron-down" viewBox="0 0 24 24">
+            <g fill="none" fillRule="evenodd">
+                <path d="M0 0h24v24H0z" fill="#878787" fillOpacity=".01" />
+                <path stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
+                      d="M8.036 10.93l3.93 4.07 4.068-3.93" />
+            </g>
         </symbol>
     </svg>
 );
