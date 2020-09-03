@@ -122,7 +122,8 @@ const Row = memo(({
         };
 
         const onBlockingClientClick = () => {
-            if (window.confirm(`${blockType === BLOCK_ACTIONS.BLOCK ? t('adg_will_drop_dns_queries') : ''} ${t(confirmMessage, { ip: client })}`)) {
+            const message = `${blockType === BLOCK_ACTIONS.BLOCK ? t('adg_will_drop_dns_queries') : ''} ${t(confirmMessage, { ip: client })}`;
+            if (window.confirm(message)) {
                 dispatch(toggleClientBlock(blockType, client));
             }
         };

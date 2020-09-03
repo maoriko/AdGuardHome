@@ -545,13 +545,17 @@ export const removeStaticLease = (config) => async (dispatch) => {
 
 export const removeToast = createAction('REMOVE_TOAST');
 
-export const toggleBlocking = (type, domain, baseRule = `||${domain}^$important`, baseUnblocking = `@@${baseRule}`) => async (dispatch, getState) => {
+export const toggleBlocking = (
+    type, domain, baseRule, baseUnblocking,
+) => async (dispatch, getState) => {
+    const baseBlockingRule = baseRule || `||${domain}^$important`;
+    const baseUnblockingRule = baseUnblocking || `@@${baseBlockingRule}`;
     const { userRules } = getState().filtering;
 
     const lineEnding = !endsWith(userRules, '\n') ? '\n' : '';
 
-    const blockingRule = type === BLOCK_ACTIONS.BLOCK ? baseUnblocking : baseRule;
-    const unblockingRule = type === BLOCK_ACTIONS.BLOCK ? baseRule : baseUnblocking;
+    const blockingRule = type === BLOCK_ACTIONS.BLOCK ? baseUnblockingRule : baseBlockingRule;
+    const unblockingRule = type === BLOCK_ACTIONS.BLOCK ? baseBlockingRule : baseUnblockingRule;
     const preparedBlockingRule = new RegExp(`(^|\n)${escapeRegExp(blockingRule)}($|\n)`);
     const preparedUnblockingRule = new RegExp(`(^|\n)${escapeRegExp(unblockingRule)}($|\n)`);
 
