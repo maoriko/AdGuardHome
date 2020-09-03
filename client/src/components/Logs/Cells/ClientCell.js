@@ -94,7 +94,7 @@ const ClientCell = ({
             return <>{options
                 .map(([name, onClick]) => <div
                     key={name}
-                    className="button--action--arrow__option px-4 py-2"
+                    className="button-action--arrow-option px-4 py-2"
                     onClick={onClick}
             >{t(name)}
             </div>)}</>;
@@ -102,19 +102,19 @@ const ClientCell = ({
 
         const content = getOptions(BUTTON_OPTIONS_TO_ACTION_MAP);
 
-        const buttonClass = classNames('button--action button--action--main', {
-            'button--action--unblock': isFiltered,
-            'button--action--main--with-options': content,
-            'button--action--active': isOptionsOpened,
+        const buttonClass = classNames('button-action button-action--main', {
+            'button-action--unblock': isFiltered,
+            'button-action--main--with-options': content,
+            'button-action--active': isOptionsOpened,
         });
 
-        const buttonArrowClass = classNames('button--action button--action--arrow', {
-            'button--action--unblock': isFiltered,
-            'button--action--active': isOptionsOpened,
+        const buttonArrowClass = classNames('button-action button-action--arrow', {
+            'button-action--unblock': isFiltered,
+            'button-action--active': isOptionsOpened,
         });
 
-        const containerClass = classNames('button--action__container', {
-            'button--action__container--detailed': isDetailed,
+        const containerClass = classNames('button-action__container', {
+            'button-action__container--detailed': isDetailed,
         });
 
         return <div className={containerClass}>
@@ -128,9 +128,9 @@ const ClientCell = ({
             {content && <button className={buttonArrowClass} disabled={processingRules}>
                 <IconTooltip
                         className='h-100 w-100'
-                        tooltipClass='button--action--arrow__option-container'
+                        tooltipClass='button-action--arrow-option-container'
                         xlinkHref='chevron-down'
-                        triggerClass='button--action--icon'
+                        triggerClass='button-action--icon'
                         content={content} placement="bottom-end" trigger="click"
                         onVisibilityChange={setOptionsOpened}
                 />

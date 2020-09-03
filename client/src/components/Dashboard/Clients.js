@@ -51,8 +51,8 @@ const renderBlockingButton = (ip) => {
     const type = isNotFound ? BLOCK_ACTIONS.BLOCK : BLOCK_ACTIONS.UNBLOCK;
     const text = type;
 
-    const buttonClass = classNames('button--action button--action--main', {
-        'button--action--unblock': !isNotFound,
+    const buttonClass = classNames('button-action button-action--main', {
+        'button-action--unblock': !isNotFound,
     });
 
     const toggleClientStatus = (type, ip) => {

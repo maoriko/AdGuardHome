@@ -67,11 +67,11 @@ body {
     margin-bottom: 1.375rem;
 }
 
-.button--action {
+.button-action {
     visibility: hidden;
 }
 
-.logs__row:hover .button--action,
-.button--action--active {
+.logs__row:hover .button-action,
+.button-action--active {
     visibility: visible;
 }

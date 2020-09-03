@@ -6,6 +6,7 @@ import { processContent } from '../../../helpers/helpers';
 import Tooltip from '../../ui/Tooltip';
 import 'react-popper-tooltip/dist/styles.css';
 import './IconTooltip.css';
+import { SHOW_TOOLTIP_DELAY } from '../../../helpers/constants';
 
 const IconTooltip = ({
     className,
@@ -42,7 +43,7 @@ const IconTooltip = ({
         triggerClass={triggerClass}
         trigger={trigger}
         onVisibilityChange={onVisibilityChange}
-        delayShow={0}
+        delayShow={trigger === 'click' ? 0 : SHOW_TOOLTIP_DELAY}
     >
         {xlinkHref && <svg className={className}>
             <use xlinkHref={`#${xlinkHref}`} />
