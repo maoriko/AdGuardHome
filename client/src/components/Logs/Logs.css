@@ -238,10 +238,6 @@
     border: 0;
 }
 
-.logs__table .button--action {
-    visibility: hidden;
-}
-
 .button--action--unblock {
     background: var(--btn-unblock);
 }
@@ -319,11 +315,6 @@
 
 .logs__table .logs__row {
     border-bottom: 2px solid var(--gray-216);
-}
-
-.logs__table .logs__row:hover .button--action,
-.logs__table .button--action--active {
-    visibility: visible;
 }
 
 /* QUERY_STATUS_COLORS */

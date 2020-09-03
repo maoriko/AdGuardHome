@@ -81,7 +81,7 @@ const ClientCell = (row) => {
     const { value, original: { info } } = row;
 
     return <>
-        <div className="logs__row logs__row--overflow logs__row--column d-flex">
+        <div className="logs__row logs__row--overflow logs__row--column d-flex align-items-center">
             {renderFormattedClientCell(value, info, true)}
             {renderBlockingButton(value)}
         </div>
