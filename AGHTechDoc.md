@@ -69,6 +69,7 @@ Contents:
 	* API: Log out
 	* API: Get current user info
 * Safe services
+* ipset
 
 
 ## Relations between subsystems
@@ -1438,6 +1439,11 @@ When UI asks for data from query log (see "API: Get query log"), server reads th
 
 We store data for a limited amount of time - the log file is automatically rotated.
 
+* On AGH startup read the first line from query logs and store its time value
+* If there's no log file yet, set the time value of the first log event when the file is created
+* If this time value is older than our time limit, perform file rotate procedure
+* While AGH is running, check the previous condition every 24 hours
+
 
 ### API: Get query log
 
@@ -1882,3 +1888,25 @@ Check if host name is blocked by SB/PC service:
 		sha256(host.com)[0..1] -> hashes[0],hashes[1],...
 		sha256(sub.host.com)[0..1] -> hashes[2],...
 		...
+
+
+## ipset
+
+AGH can add IP addresses of the specified in configuration domain names to an ipset list.
+
+Prepare: user creates an ipset list and configures AGH for using it.
+
+	1. User --( ipset create my_ipset hash:ip ) -> OS
+	2. User --( ipset: host.com,host2.com/my_ipset )-> AGH
+
+		Syntax:
+
+			ipset: "DOMAIN[,DOMAIN].../IPSET1_NAME[,IPSET2_NAME]..."
+
+		IPv4 addresses are added to an ipset list with `ipv4` family, IPv6 addresses - to `ipv6` ipset list.
+
+Run-time: AGH adds IP addresses of a domain name to a corresponding ipset list.
+
+	1. AGH --( resolve host.com )-> upstream
+	2. AGH <-( host.com:[1.1.1.1,2.2.2.2] )-- upstream
+	3. AGH --( ipset.add(my_ipset, [1.1.1.1,2.2.2.2] ))-> OS
