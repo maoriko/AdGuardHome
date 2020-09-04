@@ -545,3 +545,9 @@ export const TOAST_TIMEOUTS = {
     [TOAST_TYPES.ERROR]: 30000,
     [TOAST_TYPES.NOTICE]: 30000,
 };
+
+export const ADDRESS_TYPES = {
+    IP: 'IP',
+    CIDR: 'CIDR',
+    UNKNOWN: 'UNKNOWN',
+};
