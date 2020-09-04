@@ -248,7 +248,7 @@
     align-items: center;
 }
 
-.button-action--main--with-options {
+.button-action--with-options {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }

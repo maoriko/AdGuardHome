@@ -104,7 +104,7 @@ const ClientCell = ({
 
         const buttonClass = classNames('button-action button-action--main', {
             'button-action--unblock': isFiltered,
-            'button-action--main--with-options': content,
+            'button-action--with-options': content,
             'button-action--active': isOptionsOpened,
         });
 
