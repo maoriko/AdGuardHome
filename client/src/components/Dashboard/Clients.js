@@ -56,9 +56,11 @@ const renderBlockingButton = (ip) => {
     });
 
     const toggleClientStatus = (type, ip) => {
-        const confirmMessage = type === BLOCK_ACTIONS.BLOCK ? 'client_confirm_block' : 'client_confirm_unblock';
+        const confirmMessage = type === BLOCK_ACTIONS.BLOCK
+            ? `${t('adg_will_drop_dns_queries')} ${t('client_confirm_block', { ip })}`
+            : t('client_confirm_unblock', { ip });
 
-        if (window.confirm(t(confirmMessage, { ip }))) {
+        if (window.confirm(confirmMessage)) {
             dispatch(toggleClientBlock(type, ip));
         }
     };
